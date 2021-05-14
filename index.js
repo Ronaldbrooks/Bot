@@ -1,11 +1,12 @@
 const Discord = require("discord.js");
 const config = require("./config.json");
-const Data = require("./mockList.json");
+const data = require("./data.json");
+const fetch = require("node-fetch");
 
 const client = new Discord.Client();
 const prefix = "$";
 
-client.on("message", function(message) {
+client.on("message", async function(message) {
    if (message.author.bot) return;
    if (!message.content.startsWith(prefix)) return;
 
@@ -14,13 +15,21 @@ client.on("message", function(message) {
    const command = args.shift().toLowerCase();
 
    if (command === "mock") {
-       message.reply(getRandomMock());
+       message.reply(await getInsult());
    }
 });
 
-const getRandomMock = () => {
-    const mockList = Data.mockList;
-    return mockList(Math.floor(Math.random() * 4))
+//For use with the data.json file
+// const getRandomMock = () => {
+//     let listLength = data.mockList.length;
+//     return data.mockList[Math.floor(Math.random() * listLength)];
+// }
+
+async function getInsult (){
+    let res = await fetch('https://insult.mattbas.org/api/insult');
+    let data = await res.text();
+    console.log(data);
+    return data;
 }
 
 client.login(config.BOT_TOKEN);

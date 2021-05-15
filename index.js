@@ -9,15 +9,28 @@ const prefix = "$";
 client.on("message", async function(message) {
    if (message.author.bot) return;
    if (!message.content.startsWith(prefix)) return;
-
+//    console.log("Message: " + message.content)
    const commandBody = message.content.slice(prefix.length);
+//    console.log("CommandBody: " + commandBody)
    const args = commandBody.split(' ');
+//    console.log("Args: " + args)
    const command = args.shift().toLowerCase();
+//    console.log("Command: " + command)
 
-   if (command === "mock") {
+   if (command === "insult") {
        message.reply(await getInsult());
    }
+
+   if (command === "mock") {
+    //const mocks = message.mentions.users.map(user =>{ console.log("user " + user); return user.lastMessage; });
+    const mocks = message.channel.members.map(user => {
+        console.log(user)
+    });
+    message.channel.send(`${mocks}`);
+    }
 });
+
+
 
 //For use with the data.json file
 // const getRandomMock = () => {

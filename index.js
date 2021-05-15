@@ -23,12 +23,35 @@ client.on("message", async function(message) {
 
    if (command === "mock") {
     //const mocks = message.mentions.users.map(user =>{ console.log("user " + user); return user.lastMessage; });
-    const mocks = message.channel.members.map(user => {
-        console.log(user)
-    });
-    message.channel.send(`${mocks}`);
+    // const lastMessageIDs = message.channel.members.map(member => {
+
+    //     // console.log(member.user.username + ": " + member.lastMessageID);
+    //     // console.log(message.mentions.members.first().user.username);
+    //     if(member.user.username === message.mentions.members.first().user.username && (member.lastMessageID === '' || member.lastMessageID === null))
+    //     {
+    //         return member.lastMessageID;
+    //     }
+    // });
+    // console.log(message.channel.members);
+    const lastMessageIDs = message.channel.members.filter(member => {
+        console.log(member);
+        return (member.lastMessageID != null) && (member.user.id!= message.member.user.id)
+    }).first().lastMessageID;
+
+    console.log(lastMessageIDs);
+
+    // let lastMessageContent = message.channel.messages.cache.filter(id => {
+    //     //console.log(id.channel.lastMessageID);
+    //     //console.log(id.channel);
+    //     return id.channel.lastMessageID == lastMessageIDs;
+    // });
+    //console.log(lastMessageContent);
+    //TODO msg if empty logic
+    message.channel.send(lastMessageContent);
     }
 });
+
+
 
 
 
